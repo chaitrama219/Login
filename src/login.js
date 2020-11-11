@@ -20,17 +20,18 @@ class Login extends Component {
       login: loginNew
     });
   };
- 
+
   login = event => {
+    event.preventDefault();
     let user_id = this.state.login.user_id;
     let user_password = this.state.login.user_password;
     if (user_id === "chaitra" && user_password === "123") {
+      this.props.loginSuccess({ user_id, user_password })
       localStorage.setItem("token", "T");
       this.setState({
         islogged: true
       });
     }
-    event.preventDefault();
   };
   render() {
     if (localStorage.getItem("token")) {
@@ -38,29 +39,29 @@ class Login extends Component {
     }
     return (
       <div className="wrapper">
-          <div >
-            <form onSubmit={this.login} className="form-signin">
-                <div className="row">
-                    <div className="form-wrapper">
-                    <input
-                        className="col"
-                        type="text"
-                        name="user_id"
-                        onChange={this.handleChange}
-                        placeholder="Enter Username"
-                    />
-                    <input
-                        type="password"
-                        name="user_password"
-                        onChange={this.handleChange}
-                        placeholder="Enter Password"
-                    />
-                    <button className = "button" type="submit"  onSubmit={this.login}>
-                        Login
+        <div >
+          <form onSubmit={this.login} className="form-signin">
+            <div className="row">
+              <div className="form-wrapper">
+                <input
+                  className="col"
+                  type="text"
+                  name="user_id"
+                  onChange={this.handleChange}
+                  placeholder="Enter Username"
+                />
+                <input
+                  type="password"
+                  name="user_password"
+                  onChange={this.handleChange}
+                  placeholder="Enter Password"
+                />
+                <button className="button" type="submit" onSubmit={this.login}>
+                  Login
                     </button>
-                    </div>
-                </div>
-            </form>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     );

@@ -9,16 +9,18 @@ import {
   Redirect
 } from "react-router-dom";
 import HomeRoute from "./homeroute";
- 
-export default function App() {
+import { connect } from 'react-redux';
+import * as actions from './actions';
+
+function App(props) {
   return (
     <Router>
       <Switch>
         <Route path="/login">
-          <Login />
+          <Login loginSuccess={props.actions.loginSuccess} loginReducer={props.loginReducer} />
         </Route>
         <HomeRoute path="/homePage">
-          <HomePage />
+          <HomePage loginSuccess={props.actions.loginSuccess} loginReducer={props.loginReducer} logout={props.actions.logout} />
         </HomeRoute>
         <Route exact path="/">
           <Redirect exact from="/" to="HomePage" />
@@ -30,3 +32,23 @@ export default function App() {
     </Router>
   );
 }
+
+
+
+const mapStateToProps = state => (
+  {
+    ...state
+  }
+)
+const mapDispatchToProps = dispatch => ({
+  actions: {
+    loginSuccess: (data) => {
+      return dispatch(actions.loginSuccess(data))
+    },
+    logout: () => dispatch(actions.logout())
+  }
+})
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -9,29 +9,36 @@ class HomePage extends Component {
     this.state = {
       islogout: false
     };
+    const { loginReducer } = this.props;
+    if (loginReducer && loginReducer.userDetails && loginReducer.userDetails.user_id) {
+      localStorage.removeItem("token");
+    }
   }
+
+
   signOut = () => {
+    this.props.logout()
     localStorage.removeItem("token");
     this.setState({
       islogout: true
     });
   };
   render() {
+    const { loginReducer } = this.props;
+
     if (this.state.islogout) {
       return <Redirect to="/login" />;
     }
-    const { match } = this.props;
     return (
       <div>
-        chaitra
-        
-            <button onClick={this.signOut} href="#">
-              Sign Out
+        {loginReducer && loginReducer.userDetails && loginReducer.userDetails.user_id ? loginReducer.userDetails.user_id : "User Not Found"}
+        <button onClick={this.signOut} href="#">
+          Sign Out
             </button>
-          
+
       </div>
     );
   }
 }
- 
+
 export default withRouter(HomePage);
